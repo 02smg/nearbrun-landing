@@ -86,10 +86,64 @@
       background: white;
       border: 2px solid #eee;
       color: var(--text-dark);
-      margin-left: 10px;
     }
     .btn-outline:hover {
       border-color: var(--primary-pink);
+      color: var(--primary-pink);
+    }
+
+    /* Store Buttons */
+    .store-btns {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .btn-store {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      border-radius: 14px;
+      background: white;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: 2px solid #ffdae5;
+      transition: all 0.3s;
+      line-height: 1.3;
+      box-shadow: 0 4px 12px rgba(244, 61, 113, 0.08);
+    }
+    .btn-store:hover {
+      background: var(--bg-light-pink);
+      border-color: var(--primary-pink);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-pink);
+      color: var(--primary-pink);
+    }
+    .btn-store svg {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      color: var(--primary-pink);
+    }
+    .btn-store-label {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .btn-store-label span:first-child {
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--text-gray);
+      letter-spacing: 0.3px;
+    }
+    .btn-store-label span:last-child {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .btn-store:hover .btn-store-label span:last-child {
       color: var(--primary-pink);
     }
 
@@ -201,6 +255,13 @@
       color: var(--text-gray);
       margin-bottom: 40px;
       max-width: 500px;
+    }
+
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
     }
     
     /* Phone Mockup */
@@ -454,6 +515,8 @@
       .hero-content .lead { font-size: 1.1rem; margin-left: auto; margin-right: auto; }
       .hero-btns { flex-direction: column; gap: 12px; }
       .btn-outline { margin-left: 0; }
+      .store-btns { flex-direction: column; gap: 10px; }
+      .btn-store { width: 100%; justify-content: center; }
       
       /* 목업 반응형 처리 */
       .phone-mockup-wrapper { margin-top: 20px; }
@@ -519,11 +582,27 @@
           </div>
         </div>
         
-        <div class="phone-mockup-wrapper">
+        <div class="phone-mockup-wrapper" style="flex-direction: column; gap: 24px;">
             <div class="phone-frame">
                 <div class="phone-screen">
                     <img src="Main Page(1).png" alt="NearbRun App Main Page">
                 </div>
+            </div>
+            <div class="store-btns" style="justify-content: center;">
+              <a href="https://play.google.com/store/apps/details?id=xyz.littlebrother.nearbrun" target="_blank" class="btn-store">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3.18 23.76c.3.17.64.24.99.2l13.2-11.96L13.8 8.44 3.18 23.76zM22.35 10.6l-3.02-1.72-3.36 3.04 3.36 3.04 3.04-1.73a1.72 1.72 0 0 0 0-2.63zM3 1.04a1.7 1.7 0 0 0-.18 3.06l10.98 9.9 3.57-3.23L3 1.04zM2.82.24C2.32.06 1.8.12 1.38.4L1.37.41l12.43 11.23 3.57-3.23L2.82.24z"/></svg>
+                <div class="btn-store-label">
+                  <span>다운로드하기</span>
+                  <span>Google Play</span>
+                </div>
+              </a>
+              <a href="https://apps.apple.com/kr/app/nearbrun-%EB%84%90%EB%B8%8C%EB%9F%B0-%EA%B7%BC%EC%B2%98%EC%97%90%EC%84%9C-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EB%9F%AC%EB%8B%9D/id6757452112" target="_blank" class="btn-store">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                <div class="btn-store-label">
+                  <span>다운로드하기</span>
+                  <span>App Store</span>
+                </div>
+              </a>
             </div>
         </div>
       </div>
