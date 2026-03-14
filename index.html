@@ -26,6 +26,18 @@
       rel="stylesheet"
     />
 
+    <script>
+      (() => {
+        const hasInviteCode = new URLSearchParams(window.location.search).has(
+          "code",
+        );
+
+        if (hasInviteCode) {
+          document.documentElement.classList.add("invite-redirect-pending");
+        }
+      })();
+    </script>
+
     <style>
       /* ========================================
        Design System & Variables 
@@ -71,6 +83,17 @@
         line-height: 1.6;
         word-break: keep-all; /* 단어 단위 줄바꿈 (한글 최적화) */
         overflow-x: hidden;
+      }
+
+      html.invite-redirect-pending,
+      html.invite-redirect-pending body {
+        background-color: var(--bg-white);
+      }
+
+      html.invite-redirect-pending body {
+        opacity: 0;
+        visibility: hidden;
+        overflow: hidden;
       }
 
       a {
@@ -1147,7 +1170,10 @@
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code"); // URL에서 'code' 파라미터 추출
 
-        if (!code) return;
+        if (!code) {
+          document.documentElement.classList.remove("invite-redirect-pending");
+          return;
+        }
 
         const userAgent =
           navigator.userAgent || navigator.vendor || window.opera;
@@ -1178,7 +1204,7 @@
         }, 1500);
       }
 
-      window.onload = openApp;
+      openApp();
     </script>
   </body>
 </html>
