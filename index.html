@@ -1168,7 +1168,7 @@
       });
       function openApp() {
         const params = new URLSearchParams(window.location.search);
-        const code = params.get("code"); // URL에서 'code' 파라미터 추출
+        const code = params.get("code");
 
         if (!code) {
           document.documentElement.classList.remove("invite-redirect-pending");
@@ -1180,28 +1180,69 @@
 
         const ios = /iPad|iPhone|iPod/.test(userAgent);
         const android = /android/i.test(userAgent);
+        const inAppBrowser =
+          /KAKAOTALK|FBAN|FBAV|Instagram|Line|NAVER|DaumApps|; wv\)/i.test(
+            userAgent,
+          );
 
-        const appScheme = `nearbrun://crew/join?code=${code}`;
+        const encodedCode = encodeURIComponent(code);
+        const appScheme = `nearbrun://crew/join?code=${encodedCode}`;
+        const iosStoreAppUrl = "itms-apps://itunes.apple.com/app/id6757452112";
+        const iosStoreWebUrl =
+          "https://apps.apple.com/us/app/nearbrun-running-nearby/id6757452112";
+        const androidStoreAppUrl =
+          "market://details?id=xyz.littlebrother.nearbrun";
+        const androidStoreWebUrl =
+          "https://play.google.com/store/apps/details?id=xyz.littlebrother.nearbrun&hl=ko";
+        const androidIntent = `intent://crew/join?code=${encodedCode}#Intent;scheme=nearbrun;package=xyz.littlebrother.nearbrun;S.browser_fallback_url=${encodeURIComponent(androidStoreWebUrl)};end`;
 
         const start = Date.now();
+        let didHide = false;
 
-        // 앱 실행 시도
-        window.location.href = appScheme;
+        const handleVisibility = () => {
+          if (document.hidden) didHide = true;
+        };
+        document.addEventListener("visibilitychange", handleVisibility);
+
+        if (android) {
+          window.location.href = androidIntent;
+        } else {
+          window.location.href = appScheme;
+        }
 
         setTimeout(() => {
-          if (Date.now() - start < 2000) {
-            if (ios) {
-              window.location.href =
-                "https://apps.apple.com/us/app/nearbrun-running-nearby/id6757452112"; // iOS 앱스토어
-            } else if (android) {
-              window.location.href =
-                "https://play.google.com/store/apps/details?id=xyz.littlebrother.nearbrun&hl=ko";
-            } else {
-              // PC
-              window.location.href = "https://nearbrun-landing.vercel.app/";
-            }
+          const blockedByBrowser = inAppBrowser && ios;
+          const shouldFallback = !didHide || blockedByBrowser;
+
+          if (!shouldFallback) return;
+
+          if (ios) {
+            window.location.href = iosStoreAppUrl;
+            setTimeout(() => {
+              if (!document.hidden) {
+                window.location.href = iosStoreWebUrl;
+              }
+            }, 900);
+          } else if (android) {
+            window.location.href = androidStoreAppUrl;
+            setTimeout(() => {
+              if (!document.hidden) {
+                window.location.href = androidStoreWebUrl;
+              }
+            }, 900);
+          } else {
+            window.location.href = "https://nearbrun-landing.vercel.app/";
           }
-        }, 1500);
+        }, 1800);
+
+        setTimeout(() => {
+          document.removeEventListener("visibilitychange", handleVisibility);
+          if (!document.hidden) {
+            document.documentElement.classList.remove(
+              "invite-redirect-pending",
+            );
+          }
+        }, 2600);
       }
 
       openApp();
